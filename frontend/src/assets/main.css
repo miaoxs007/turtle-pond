@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+/* ─── 龟塘 Design Tokens ─────────────────────────────────── */
+@theme {
+  /* Colors */
+  --color-bg-primary: #F5F0E8;
+  --color-bg-secondary: #E8E0D0;
+  --color-bg-card: #FFFFFF;
+  --color-text-primary: #2C3E2D;
+  --color-text-secondary: #5A6B5C;
+  --color-text-muted: #8B9A8C;
+  --color-accent-green: #4A7C59;
+  --color-accent-light: #7FB069;
+  --color-accent-warm: #C17A4A;
+  --color-accent-water: #5B8FA8;
+  --color-border: #D4CBBA;
+  --color-danger: #B85C4A;
+
+  /* Fonts */
+  --font-display: "Noto Serif SC", serif;
+  --font-body: "Noto Sans SC", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Spacing & Radius */
+  --radius-card: 12px;
+  --radius-btn: 8px;
+  --radius-input: 4px;
+
+  /* Shadows */
+  --shadow-card: 0 2px 8px rgba(44, 62, 45, 0.08);
+  --shadow-card-hover: 0 4px 16px rgba(44, 62, 45, 0.14);
+  --shadow-fab: 0 4px 20px rgba(74, 124, 89, 0.35);
+}
+
+/* ─── Base ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-body);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+body { margin: 0; min-height: 100vh; }
+
+/* ─── Typography ──────────────────────────────────────────── */
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; }
+
+/* ─── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg-secondary); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
+
+/* ─── Selection ───────────────────────────────────────────── */
+::selection {
+  background: var(--color-accent-green);
+  color: white;
+}
+
+/* ─── Animations ──────────────────────────────────────────── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s ease-out forwards;
+}
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out forwards;
+}
+.animate-scale-in {
+  animation: scale-in 0.2s ease-out forwards;
+}
+
+/* ─── Stagger utilities ──────────────────────────────────── */
+.stagger-1 { animation-delay: 60ms; }
+.stagger-2 { animation-delay: 120ms; }
+.stagger-3 { animation-delay: 180ms; }
+.stagger-4 { animation-delay: 240ms; }
+
+/* ─── Card ───────────────────────────────────────────────── */
+.card {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
+}
+
+/* ─── Button ──────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+}
+.btn-primary {
+  background: var(--color-accent-green);
+  color: white;
+}
+.btn-primary:hover { background: #3d6a4a; }
+.btn-secondary {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+.btn-secondary:hover { background: #ddd5c5; }
+.btn-danger {
+  background: var(--color-danger);
+  color: white;
+}
+.btn-danger:hover { background: #a04d3c; }
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+.btn-ghost:hover { background: var(--color-bg-secondary); }
+
+/* ─── Input ───────────────────────────────────────────────── */
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+}
+.input:focus {
+  border-color: var(--color-accent-green);
+  box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.15);
+}
+.input::placeholder { color: var(--color-text-muted); }
+
+/* ─── Badge ───────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.badge-green { background: rgba(74, 124, 89, 0.12); color: var(--color-accent-green); }
+.badge-blue { background: rgba(91, 143, 168, 0.12); color: var(--color-accent-water); }
+.badge-warm { background: rgba(193, 122, 74, 0.12); color: var(--color-accent-warm); }
+.badge-danger { background: rgba(184, 92, 74, 0.12); color: var(--color-danger); }
+
+/* ─── Page transitions ───────────────────────────────────── */
+.page-enter-active, .page-leave-active {
+  transition: opacity 0.2s ease;
+}
+.page-enter-from, .page-leave-to { opacity: 0; }
