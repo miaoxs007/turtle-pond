@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { healthLogs as healthApi } from '@/lib/pb'
+import { healthLogs as healthApi } from '@/lib/supabase'
 import type { HealthLog } from '@/types'
 
 export const useHealthStore = defineStore('health', () => {

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { feedingLogs as feedingApi } from '@/lib/pb'
+import { feedingLogs as feedingApi } from '@/lib/supabase'
 import type { FeedingLog } from '@/types'
 
 export const useFeedingStore = defineStore('feeding', () => {

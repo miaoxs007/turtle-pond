@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import pb from '@/lib/pb'
+import supabase from '@/lib/supabase'
 
 const exporting = ref(false)
 const exportMsg = ref('')
-const pbUrl = import.meta.env.VITE_PB_URL || 'http://localhost:8090'
 
 async function exportData() {
   exporting.value = true
   exportMsg.value = ''
   try {
-    // Collect all data
-    const turtles = await pb.collection('turtles').getFullList()
-    const feeding = await pb.collection('feeding_logs').getFullList({ expand: 'turtle' })
-    const water = await pb.collection('water_changes').getFullList()
-    const growth = await pb.collection('growth_records').getFullList({ expand: 'turtle' })
-    const env = await pb.collection('environment_logs').getFullList()
-    const health = await pb.collection('health_logs').getFullList({ expand: 'turtle' })
+    const fetchAll = async (table: string) => {
+      const { data, error } = await supabase.from(table).select('*')
+      if (error) throw error
+      return data
+    }
+    const turtles = await fetchAll('turtles')
+    const feeding = await fetchAll('feeding_logs')
+    const water = await fetchAll('water_changes')
+    const growth = await fetchAll('growth_records')
+    const env = await fetchAll('environment_logs')
+    const health = await fetchAll('health_logs')
 
     const data = {
       exported_at: new Date().toISOString(),
@@ -37,7 +40,7 @@ async function exportData() {
     URL.revokeObjectURL(url)
     exportMsg.value = '导出成功！'
   } catch (e) {
-    exportMsg.value = '导出失败，请检查 PocketBase 连接'
+    exportMsg.value = '导出失败，请检查 Supabase 连接'
   } finally {
     exporting.value = false
   }
@@ -73,21 +76,6 @@ async function exportData() {
           <p>专为养龟爱好者设计的记录平台</p>
           <p class="mt-2">🐢 愿每一只龟龟都健康成长</p>
         </div>
-      </div>
-
-      <!-- Connection -->
-      <div class="card p-5">
-        <h3 class="font-semibold text-sm mb-2" style="color: var(--color-text-primary);">后端连接</h3>
-        <p class="text-xs mb-2" style="color: var(--color-text-muted);">
-          PocketBase 地址：
-        </p>
-        <code class="text-xs font-mono px-2 py-1 rounded" style="background: var(--color-bg-secondary); color: var(--color-accent-water);">
-          {{ pbUrl }}
-        </code>
-        <p class="text-xs mt-3" style="color: var(--color-text-muted);">
-          如需更改，创建一个 <code class="px-1 rounded" style="background: var(--color-bg-secondary);">.env</code> 文件，
-          写入 <code class="px-1 rounded" style="background: var(--color-bg-secondary);">VITE_PB_URL=你的PocketBase地址</code>
-        </p>
       </div>
     </div>
   </div>

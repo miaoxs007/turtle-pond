@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { environmentLogs as envApi } from '@/lib/pb'
+import { environmentLogs as envApi } from '@/lib/supabase'
 import type { EnvironmentLog } from '@/types'
 
 export const useEnvironmentStore = defineStore('environment', () => {

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { waterChanges as waterApi } from '@/lib/pb'
+import { waterChanges as waterApi } from '@/lib/supabase'
 import type { WaterChange } from '@/types'
 
 export const useWaterStore = defineStore('water', () => {

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { growthRecords as growthApi } from '@/lib/pb'
+import { growthRecords as growthApi } from '@/lib/supabase'
 import type { GrowthRecord } from '@/types'
 
 export const useGrowthStore = defineStore('growth', () => {

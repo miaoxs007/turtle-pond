@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { turtles as turtlesApi } from '@/lib/pb'
+import { turtles as turtlesApi } from '@/lib/supabase'
 import type { Turtle } from '@/types'
 
 export const useTurtleStore = defineStore('turtles', () => {
