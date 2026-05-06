@@ -10,7 +10,7 @@ const store = useHealthStore()
 const showForm = ref(false)
 const saving = ref(false)
 const form = ref({
-  turtle: '',
+  turtle_id: '',
   date: new Date().toISOString().split('T')[0],
   status: '正常' as HealthStatus,
   shell_check: '',
@@ -34,18 +34,18 @@ onMounted(async () => {
 })
 
 async function submit() {
-  if (!form.value.turtle) return
+  if (!form.value.turtle_id) return
   saving.value = true
   try {
     await store.createLog({
-      turtle: form.value.turtle,
+      turtle_id: form.value.turtle_id,
       date: form.value.date,
       status: form.value.status,
       shell_check: form.value.shell_check,
       eye_check: form.value.eye_check,
       notes: form.value.notes,
     })
-    form.value = { turtle: '', date: new Date().toISOString().split('T')[0], status: '正常', shell_check: '', eye_check: '', notes: '' }
+    form.value = { turtle_id: '', date: new Date().toISOString().split('T')[0], status: '正常', shell_check: '', eye_check: '', notes: '' }
     showForm.value = false
   } catch (e) { console.error(e) }
   finally { saving.value = false }
@@ -74,7 +74,7 @@ function formatDate(d: string) {
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs mb-1" style="color: var(--color-text-muted);">龟龟</label>
-            <select v-model="form.turtle" class="input">
+            <select v-model="form.turtle_id" class="input">
               <option value="">选择龟龟</option>
               <option v-for="t in turtleStore.turtleList" :key="t.id" :value="t.id">{{ t.name }}</option>
             </select>
@@ -139,7 +139,7 @@ function formatDate(d: string) {
           <div class="flex items-center gap-2">
             <span class="text-lg">🐢</span>
             <span class="text-sm font-medium" style="color: var(--color-text-primary);">
-              {{ (log as any).expand?.turtle?.name || '未知' }}
+              {{ log.turtleName || '未知' }}
             </span>
             <span :class="['badge', statusBadge(log.status as HealthStatus)]">{{ log.status }}</span>
           </div>

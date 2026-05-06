@@ -61,7 +61,7 @@ const recentActivity = computed(() => {
       type: 'feeding',
       title: `🍽️ 喂食`,
       subtitle: `${l.food_type} × ${l.quantity}${l.unit}`,
-      turtleName: (l as any).expand?.turtle?.name || ''
+      turtleName: l.turtleName || ''
     })),
     ...waterStore.logs.slice(0, 5).map(l => ({
       id: l.id,
@@ -77,7 +77,7 @@ const recentActivity = computed(() => {
       type: 'growth',
       title: `📈 成长`,
       subtitle: `${l.weight}g · ${l.carapace_length}mm`,
-      turtleName: (l as any).expand?.turtle?.name || ''
+      turtleName: l.turtleName || ''
     })),
     ...healthStore.logs.slice(0, 5).map(l => ({
       id: l.id,
@@ -85,7 +85,7 @@ const recentActivity = computed(() => {
       type: 'health',
       title: `🩺 健康`,
       subtitle: l.status,
-      turtleName: (l as any).expand?.turtle?.name || ''
+      turtleName: l.turtleName || ''
     })),
   ]
   return items

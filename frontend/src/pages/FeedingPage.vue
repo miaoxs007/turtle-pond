@@ -11,7 +11,7 @@ const store = useFeedingStore()
 const showForm = ref(false)
 const saving = ref(false)
 const form = ref({
-  turtle: '',
+  turtle_id: '',
   date: new Date().toISOString().slice(0, 16),
   food_type: '龟粮' as FoodType,
   quantity: '',
@@ -31,11 +31,11 @@ onMounted(async () => {
 })
 
 async function submit() {
-  if (!form.value.turtle || !form.value.quantity) return
+  if (!form.value.turtle_id || !form.value.quantity) return
   saving.value = true
   try {
     await store.createLog({
-      turtle: form.value.turtle,
+      turtle_id: form.value.turtle_id,
       date: new Date(form.value.date).toISOString(),
       food_type: form.value.food_type,
       quantity: Number(form.value.quantity),
@@ -43,7 +43,7 @@ async function submit() {
       notes: form.value.notes,
     })
     form.value = {
-      turtle: '',
+      turtle_id: '',
       date: new Date().toISOString().slice(0, 16),
       food_type: '龟粮',
       quantity: '',
@@ -81,7 +81,7 @@ function formatDate(d: string) {
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs mb-1" style="color: var(--color-text-muted);">龟龟</label>
-            <select v-model="form.turtle" class="input">
+            <select v-model="form.turtle_id" class="input">
               <option value="">选择龟龟</option>
               <option v-for="t in turtleStore.turtleList" :key="t.id" :value="t.id">{{ t.name }}</option>
             </select>
@@ -138,7 +138,7 @@ function formatDate(d: string) {
         <div class="text-2xl flex-shrink-0">🐢</div>
         <div class="flex-1 min-w-0">
           <div class="text-sm font-medium" style="color: var(--color-text-primary);">
-            {{ (log as any).expand?.turtle?.name || '未知龟龟' }}
+            {{ log.turtleName || '未知龟龟' }}
           </div>
           <div class="text-xs" style="color: var(--color-text-muted);">
             {{ log.food_type }} × {{ log.quantity }}{{ log.unit }}

@@ -9,7 +9,7 @@ const store = useGrowthStore()
 const showForm = ref(false)
 const saving = ref(false)
 const form = ref({
-  turtle: '',
+  turtle_id: '',
   date: new Date().toISOString().split('T')[0],
   weight: '',
   carapace_length: '',
@@ -26,18 +26,18 @@ onMounted(async () => {
 })
 
 async function submit() {
-  if (!form.value.turtle) return
+  if (!form.value.turtle_id) return
   saving.value = true
   try {
     await store.createRecord({
-      turtle: form.value.turtle,
+      turtle_id: form.value.turtle_id,
       date: form.value.date,
       weight: Number(form.value.weight) || 0,
       carapace_length: Number(form.value.carapace_length) || 0,
       ventral_length: Number(form.value.ventral_length) || 0,
       notes: form.value.notes,
     })
-    form.value = { turtle: '', date: new Date().toISOString().split('T')[0], weight: '', carapace_length: '', ventral_length: '', notes: '' }
+    form.value = { turtle_id: '', date: new Date().toISOString().split('T')[0], weight: '', carapace_length: '', ventral_length: '', notes: '' }
     showForm.value = false
   } catch (e) { console.error(e) }
   finally { saving.value = false }
@@ -66,7 +66,7 @@ function formatDate(d: string) {
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs mb-1" style="color: var(--color-text-muted);">龟龟</label>
-            <select v-model="form.turtle" class="input">
+            <select v-model="form.turtle_id" class="input">
               <option value="">选择龟龟</option>
               <option v-for="t in turtleStore.turtleList" :key="t.id" :value="t.id">{{ t.name }}</option>
             </select>
@@ -120,7 +120,7 @@ function formatDate(d: string) {
         <div class="text-2xl flex-shrink-0">🐢</div>
         <div class="flex-1 min-w-0">
           <div class="text-sm font-medium" style="color: var(--color-text-primary);">
-            {{ (rec as any).expand?.turtle?.name || '未知' }}
+            {{ rec.turtleName || '未知' }}
           </div>
           <div class="flex gap-3 text-xs mt-0.5" style="color: var(--color-text-muted);">
             <span>体重 <strong class="font-mono">{{ rec.weight }}g</strong></span>
